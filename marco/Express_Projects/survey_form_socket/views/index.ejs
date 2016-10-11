@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type ="text/javascript">
+        $(document).ready(function (){
+            //this triggers the connection event in our server!
+            var socket = io.connect();
+            //submitting form
+            $('#survey_form').submit(function(){
+            	socket.emit("posting_form", {
+            		name: $("#name").val(),
+            		location: $("#location").val(),
+            		language: $("#language").val(),
+            		comment: $("#comment").val()
+            	})
+            	return false;
+            })
+            //These are the events the client is listening to.
+            socket.on("updated_message", function(data){
+            	console.log(data);
+
+            	$('#message').html("You submitted the following info to the server: " + JSON.stringify(data.response));
+            })
+            socket.on("random_number", function(data){
+            	$("#number").html("Your lucky number emmited by the server is: " + JSON.stringify(data.response));
+            })
+
+   		 })
+    </script>
+	<title>Survey Form With Socket| Home</title>
+</head>
+<body>
+	<div id="message"></div>
+	<div id="number"></div><br><br><hr>
+		<form id="survey_form" action="/result" method="post">
+			<table>
+				<tr>
+					<td>Your Name:<td>
+					<td><input id="name" type="text" name="name"></td>
+				</tr>
+				<tr>
+					<td>Dojo Location:<td>
+					<td>
+						<select id="location" name="location">
+							<option value="Washington, DC">Washington, DC</option>
+							<option value="Los Angeles, CA">Los Angeles, CA</option>
+							<option value="Dallas, TX">Dallas, TX</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Favorite Language:<td>
+					<td>
+						<select id="language" name="language">
+							<option value="Javascript">Javascript</option>
+							<option value="Python">Python</option>
+							<option value="Ruby">Ruby</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+				<p>Comment (optional):</p>
+				<p><textarea id="comment" name="comment"></textarea><p>
+				<input type="submit" value="Submit">
+		</form>
+</body>
+</html>
