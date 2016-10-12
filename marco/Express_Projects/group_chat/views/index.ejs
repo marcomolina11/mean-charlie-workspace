@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Grup Chat</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var socket = io.connect();
+			var current_user;
+
+			var new_user = function(){	
+				var name = null
+				while (name == '' || name == null) {
+					name = prompt("Your Name");
+				}
+				socket.emit("new_user_connected", {user: name});
+			}
+			new_user();
+			//Events client is emiting...
+			$('#message_form').submit(function(){
+				socket.emit("post_message", {
+					user: current_user,
+					message: $("#message").val(),
+				})
+				$("#message").val("");
+				return false;
+			})
+
+			//Events client is listening to...
+			socket.on("existing_user", function(data){
+				console.log("This is an existing user", data);
+				alert(data.error);
+				new_user();
+			})
+			socket.on("load_messages", function(data){
+				console.log("This is a new user", data);
+				current_user = data.current_user;
+				var messages = data.messages;
+				var messages_thread = "";
+
+				for (var i=0; i < messages.length; i++){
+					if (messages[i].joined === true){
+						messages_thread += "<p id='new_user'>" + messages[i].user + messages[i].message + "</p>";
+					}
+					else{
+						messages_thread += "<p>" + messages[i].user + ": " + messages[i].message + "</p>";
+					}
+				}
+				$("#board").append(messages_thread);
+			})
+
+			socket.on("new_user_joined", function(data){
+				$("#board").append("<p id='new_user'>" + data.user + data.message + "</p>");
+			})
+			socket.on("post_new_message", function(data){
+				$("#board").append("<p>" + data.user + ": " + data.new_message + "</p>");
+			})
+
+		})
+	</script>
+</head>
+<body>
+	<div id="wrapper">
+		<h2>Conversation Board</h2>
+		<div id="board">
+		</div><div id="message_form_div">
+			<form id="message_form">
+				<p><textarea id="message" placeholder="Write a message..."></textarea></p>
+				<p><input id="send" type="submit" value="Send"></p>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
