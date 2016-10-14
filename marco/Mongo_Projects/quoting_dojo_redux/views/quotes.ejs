@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quoting Dojo Redux | Quotes</title>
+</head>
+<body>
+	<h1>Here are all the Quotes:</h1>
+
+	<% for (i in quotes) { %>
+		<h3>"<%= quotes[i].quote %>"</h3>
+		<p>-<%= quotes[i].name %> at <%= quotes[i].createdAt %></p>
+		<hd>
+	<% } %>
+
+	<p><a href="/">Create a quote</a></p>
+</body>
+</html>
