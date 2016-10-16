@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mongoose Dashboard | Index</title>
+</head>
+<body>
+	<h1>Index!</h1>
+	<a href="/new">Create a New Dog</a>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Weight</th>
+			<th>Color</th>
+			<th>Action</th>
+		</tr>
+		<% for (i in dogs) { %>
+		<tr>
+			<td><%= dogs[i].name %></td>
+			<td><%= dogs[i].weight %></td>
+			<td><%= dogs[i].color %></td>
+			<td><a href="/<%= dogs[i]._id %>/edit/">Edit</a> | <a href="/<%= dogs[i]._id %>/show/">Show</a> | 
+			<form action="/<%= dogs[i]._id %>/delete/" method="post">
+				<input type="submit" value="Delete">
+			</form>
+			</td>
+		</tr>
+		<% } %>
+	</table>
+</body>
+</html>

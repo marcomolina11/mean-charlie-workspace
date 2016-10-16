@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mongoose Dashboard | Edit</title>
+</head>
+<body>
+	<h1>Edit Dog <%= dog.name %></h1>
+		<form action="/<%= dog._id %>/update" method="post">
+		<p>Name: <input type="text" name="name" value="<%= dog.name %>"></p>
+		<p>Weight: <input type="text" name="weight" value="<%= dog.weight %>"></p>
+		<p>Color: <input type="text" name="color" value="<%= dog.color %>"></p>
+		<p><input type="submit" name="Update"></p>
+	</form>
+</body>
+</html>
