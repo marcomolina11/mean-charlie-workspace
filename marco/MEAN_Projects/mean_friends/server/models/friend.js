@@ -6,6 +6,6 @@ var FriendSchema = new mongoose.Schema({
   last_name: String,
   hometown: String,
   birthday: Number,
-});
+}, {timestamp: true});
 // Register Schema as a model
 var Friend = mongoose.model('Friend', FriendSchema);

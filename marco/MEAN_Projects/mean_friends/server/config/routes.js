@@ -6,9 +6,14 @@ var Friend = mongoose.model('Friend');
 var friends = require('../controllers/friends.js');
 
 module.exports = function(app){
+	//index
 	app.get('/friends', friends.index);
+	//show
   	app.get('/friends/:id', friends.show);
+  	//create
   	app.post('/friends', friends.create);
-  	app.put('/friends/:id', friends.update);
+  	//update
+  	app.patch('/friends/:id', friends.update);
+  	//delete
   	app.delete('/friends/:id', friends.delete);
 }

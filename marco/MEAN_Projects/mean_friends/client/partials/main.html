@@ -1,0 +1,22 @@
+<p><a href="#/new">New Friend</a></p>
+<h1>All Friends</h1>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Hometown</th>
+		<th>Show</th>
+		<th>Update</th>
+		<th>Delete</th>
+	</tr>
+	<tr ng-repeat='friend in friends track by $index'>
+		<td>{{ friend.first_name }} {{ friend.last_name }}</td>
+		<td>{{ friend.hometown }}</td>
+		<td><a href="#/show/{{ friend._id }}">show</a></td>
+		<td><a href="#/{{ friend._id }}/edit">edit</a></td>
+		<td>
+			<form ng-submit='delete( friend._id )'>
+				<input type="submit" value='Delete'>
+			</form>
+		</td>
+	</tr>
+</table>
